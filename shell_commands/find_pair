@@ -1,0 +1,41 @@
+#!/usr/bin/python
+
+import sys
+
+def find_pair(int_list, num):
+	l = 0
+	r = len(int_list)-1
+	#max keeps track of max sum and two indices l, r that
+	#make up the max sum
+	max_sum = (int_list[r] + int_list[l], l, r)
+	while(r > l):
+		print max_sum[0],num
+		if max_sum[0] > num:
+			r -= 1
+		elif max_sum[0] < num:
+			l += 1
+		else:
+			break
+		if r > l:
+			curr_val = int_list[r]+int_list[l]
+			if curr_val < num and max_sum[0] < curr_val or max_sum[0] > num:
+				max_sum = (curr_val, l, r)
+	return int_list[max_sum[1]], int_list[max_sum[2]]
+
+def to_int(lst):
+	for i in range(len(lst)):
+		lst[i] = int(lst[i])
+
+def main():
+	file_name = sys.argv[1]
+	num = int(sys.argv[2])
+	#print file_name, gb
+	file = open(file_name, 'r')
+	for line in file:
+		int_list = line.split()
+		to_int(int_list)
+		pairs = find_pair(int_list, num)
+		print pairs
+	file.close()
+
+main()
